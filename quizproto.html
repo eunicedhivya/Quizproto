@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema quiz: Senthil and Goundamani</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        *{ margin:0; padding: 0;  box-sizing: border-box; -moz-box-sizing: border-box;  -webkit-box-sizing: border-box;}
+div#quiz { border: #ccc 1px solid; min-height: 300px; border-radius: 5px; padding: 10px 30px 30px 30px; max-width: 636px; box-sizing: border-box; -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;}
+    h3 {line-height: 26px; font-size: 22px;}
+
+img{ width: 100%; margin-bottom: 10px; }
+button.start {
+    background-color: #2a5e88;
+    border: none;
+    color: white;text-align: center; padding:10px 10px 5px 10px;
+    text-decoration: none; display: inline-block;font-size: 12px; margin: 0 0 0 42%; cursor: pointer; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;}
+    button.next { background-color: #2a5e88;border: none; color: white;text-align: center; padding:10px 10px 5px 10px;
+    text-decoration: none; display: inline-block;font-size: 12px; cursor: pointer; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;}
+    button:disabled { background-color: #ccc;}
+
+        label {background-color: #f8f8f8;padding: 5px; width: 100%;}
+
+        h2.title { font-size: 20px; margin-top: 0; margin-bottom: 0; background-color: #133b5a; color: #fff; padding: 5px 10px;margin-left: -16px;-webkit-border-radius: 0px 10px 10px 0px;-moz-border-radius: 0px 10px 10px 0px;border-radius: 0px 10px 10px 0px;}
+        h2#title{color:#2A5E88;}
+        h2#quiz_title:empty { display: none;}
+        p#test_status:empty { display: none;}
+        p#test_status { font-size: 16px;margin-top: 0; margin-bottom: 0;background-color: #2a5e88; color: #fff;padding: 5px 10px;margin-right: -16px;-webkit-border-radius: 10px 0px 0px 10px;-moz-border-radius: 10px 0px 0px 10px;border-radius: 10px 0px 0px 10px;}
+
+        div#test input {    border: 0 !important;  clip: rect(0 0 0 0) !important;  height: 0.0625rem !important;  margin: -0.0625rem !important;
+                overflow: hidden !important;   padding: 0 !important;  position: absolute !important;  width: 0.0625rem !important;
+            }
+
+@keyframes fadeIn {from {opacity: 0;} to { opacity: 1;}}
+@-webkit-keyframes fadeIn {from {opacity: 0;} to { opacity: 1;}}
+@-moz-keyframes fadeIn {from {opacity: 0;} to { opacity: 1;}}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn ease-in 1;
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+
+    animation-duration:0.5s;
+    -webkit-animation-duration:0.5s;
+    -moz-animation-duration:0.5s;
+}
+    </style>
+</head>
+<body>
+<div class="container clearfix">
+    <div id="quiz">
+        <div class="row">
+            <h2 class="col-md-5 title text-center" id="quiz_title"></h2>
+            <p class="col-md-1 pull-right" id="test_status"></p>
+        </div>
+        <div class="row">
+            <!-- <div id="testQ" class="col-sm-6"></div> -->
+            <div id="test"></div>
+        </div>
+    </div>
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+    var pos = 0, test, test_status, question, choice, choices,img, chA, chB, chC, exp,example, correct = 0;
+    var quizTitle = "Cinema quiz: Senthil and Goundamani";
+    var quizLead = "Actors Senthil and Goundamani have been an indispensable part of Tamil cinema for decades, often referred to as India's Laurel and Hardy. How well do you do this iconic duo? Take our quiz to find out. As Goundamani would say, start meesic!";
+    var quizImg = "https://www.thehindu.com/entertainment/movies/rglz2z/article25680035.ece/alternates/FREE_660/Naattamaijpg";
+
+    var questions =    [
+      {
+        "question": "In which movie was Goundamani the lead actor?",
+        "choiceone": "Panam Pathum Seiyum",
+        "choicetwo": "Raja Enga Raja",
+        "choicethree": "49-O",
+        "chosenone": "A",
+        "supporttype": "img",
+        "supportlink": "https://tamil.thehindu.com/migration_catalog/i8imqs-goundamani1/alternates/FREE_630/goundamani1",
+        "readmorelink": "#"
+      },
+      {
+        "question": "Goundamani's debut film, in which he had an uncredited appearance, was with veteran comedian Nagesh. His first speaking role was also with the same actor, in the 1960s. Name the film.",
+        "choiceone": "Server Sundaram",
+        "choicetwo": "Thenum Paalum ",
+        "choicethree": "Ethir Neechal",
+        "chosenone": "B",
+        "supporttype": "img",
+        "supportlink": "https://www.thehindu.com/migration_catalog/article12593858.ece/alternates/FREE_660/Hyderabad.CITY.Page_07ART1_GSL5HQ8P6.1+09cp_nagesh.jpg",
+        "readmorelink": "#"
+      },
+      {
+        "question": "In Shankar's <i>Gentleman</i>, the comic duo play a game that later becomes a cult comic scene. Name the game that Senthil 'invents' in the film.",
+        "choiceone": "Dikilona ",
+        "choicetwo": "Kanikona",
+        "choicethree": "Hachilona",
+        "chosenone": "A",
+        "supporttype": "img",
+        "supportlink": "http://www.thehindu.com/entertainment/movies/4hx53h/article25679954.ece/alternates/FREE_660/Gentlemanjpg",
+        "readmorelink": "#"
+      },
+      {
+        "question": "The 'Petromax light' comedy scene is one that is echoed by many in pop culture. In which film does the scene take place?",
+        "choiceone": "Chinna Gounder",
+        "choicetwo": "Karagattakaran",
+        "choicethree": "Vaidehi Kathirunthal ",
+        "chosenone": "C",
+        "supporttype": "img",
+        "supportlink": "https://www.thehindu.com/thehindu/2001/06/08/images/0908022a.jpg",
+        "readmorelink": "#"
+      },
+      {
+        "question": "In Naattamai, Goundamani played two roles. One of that was of Senthil's son. What is the other role?",
+        "choiceone": "Senthil's mother",
+        "choicetwo": "Senthil's wife ",
+        "choicethree": "Senthil's sister",
+        "chosenone": "B",
+        "supporttype": "img",
+        "supportlink": "http://www.thehindu.com/entertainment/movies/rglz2z/article25680035.ece/alternates/FREE_660/Naattamaijpg",
+        "readmorelink": "#"
+      },
+      {
+        "question": "Which mythological characters do the duo play in actor Karthik's <i>Lucky Man</i>?",
+        "choiceone": "Indra and Kubera",
+        "choicetwo": "Yama and Chitragupta",
+        "choicethree": "Rahu and Ketu",
+        "chosenone": "B",
+        "supporttype": "img",
+        "supportlink": "http://www.thehindu.com/entertainment/movies/rglz2z/article25680035.ece/alternates/FREE_660/Naattamaijpg",
+        "readmorelink": "#"
+      },
+      {
+        "question": "This movie, which was Goundamani and Senthil’s 100th as a duo, ran for a year when it was first released. What was the movie?",
+        "choiceone": "Ullathai Allitha",
+        "choicetwo": "Chinna Gounder",
+        "choicethree": "Karagattakaran",
+        "chosenone": "C",
+        "supporttype": "img",
+        "supportlink": "https://tamil.thehindu.com/migration_catalog/i8imqs-goundamani1/alternates/FREE_630/goundamani1",
+        "readmorelink": "#"
+      },
+      {
+        "question": "Goundamani plays the character ‘Idea’ Mani in this film starring Prabhu, a remake of <i>Coming to America</i> starring Eddie Murphy. What was the remake titled?",
+        "choiceone": "My Dear Marthandan ",
+        "choicetwo": "Ejamaan",
+        "choicethree": "Gentleman",
+        "chosenone": "A",
+        "supporttype": "img",
+        "supportlink": "https://www.thehindu.com/migration_catalog/article15103589.ece/alternates/FREE_660/2008091250810102",
+        "readmorelink": "#"
+      },
+      {
+        "question": "In which film does Goundamani's character keep seeing Senthil's character in his dreams?",
+        "choiceone": "Ragasiya Police",
+        "choicetwo": "Vietnam Colony",
+        "choicethree": "Jai Hind ",
+        "chosenone": "C",
+        "supporttype": "img",
+        "supportlink": "http://www.thehindu.com/entertainment/movies/6ox5cw/article25680390.ece/alternates/FREE_660/Senthil-1jpg",
+        "readmorelink": "#"
+      },
+      {
+        "question": "Senthil's latest film, <i>Thaana Serntha Kootam</i>, was full of throwbacks to the comedy duo's earlier films. Which of the following scenes was referenced?",
+        "choiceone": "The petromax light scene from <i>Vaidehi Kaathirundhaal</i>",
+        "choicetwo": "The 7th pass-SSLC fail dialogue from Gentleman",
+        "choicethree": "The bribe scene from Indian",
+        "chosenone": "A",
+        "supporttype": "img",
+        "supportlink": "https://tamil.thehindu.com/incoming/article23988887.ece/alternates/FREE_630/goundamani-banana-comedyjpg",
+        "readmorelink": "#"
+      }
+    ];
+
+
+                //Function to retrieve element with its id
+                function _(x) {
+                    return document.getElementById(x);
+                }
+
+                function renderQuestion() {
+                test = _("test");
+                _("quiz_title").innerHTML = quizTitle;
+                _("test_status").innerHTML = (pos + 1) + "/" + questions.length;
+
+
+                if (pos >= questions.length) {
+                    _("test_status").innerHTML = "";
+                    test.innerHTML = "<h2 class='text-center'>That's all for now. See you next week!</h2>";
+                    test.innerHTML += "<h3 class='text-center'>Score: " + correct + " of " + questions.length + "</h3>";
+                    pos = 0;
+                    correct = 0;
+                    $( "<button onclick='startQuiz()' class='start' id='startQ'>Retake the Quiz</button>" ).appendTo( "#test" );
+                    return false;
+                }
+
+
+                //cache the questions, options and other information that is available
+                question = questions[pos]["question"];
+                type_of_support = questions[pos]["supporttype"];
+                img = questions[pos]["supportlink"];
+                chA = questions[pos]["choiceone"];
+                chB = questions[pos]["choicetwo"];
+                chC = questions[pos]["choicethree"];
+                support_link = questions[pos]["readmorelink"];
+
+                //render the questions and options
+                test.innerHTML = "<h3>" + question + "</h3>";
+                
+                if(type_of_support == "img"){
+                    test.innerHTML += "<img class='fade-in' src='" + img + "' /><br>";
+                }
+
+                test.innerHTML += "<input  onclick='checkAnswer()'  type='radio' class='choice fade-in' name='choices' value='A'id='choA'> <label for='choA'>" + chA + "</label><br>";
+                test.innerHTML += "<input  onclick='checkAnswer()'  type='radio' class='choice fade-in' name='choices' value='B'id='choB'> <label for='choB'>" + chB + "</label><br>";
+                test.innerHTML += "<input  onclick='checkAnswer()'  type='radio' class='choice fade-in' name='choices' value='C'id='choC'> <label for='choC'>" + chC + "</label><br>";
+
+                test.innerHTML += "<div id='explanation'></div>";
+                
+                test.innerHTML += "<button onclick='nextAnswer()' class='next fade-in' disabled='disabled' id='choiceSubmit'>Next &raquo;</button>";
+
+                addRadioListener();
+
+            }
+
+            //Function to Check if answer is correct or not
+            function checkAnswer() {
+                if ($("#test input:checked").val() == questions[pos]["chosenone"]) {
+                        // correct question clicked
+                        $("#test input:checked+label").css("background-color", "green")
+                                                      .css("color", "white");;
+                        $("#test input").attr('disabled', true);
+                        if(support_link == "#"){
+                        }else{
+                            $( "<p>Correct answer! To know more <a href='"+support_link+"' target='_blank'>click here</a></p>" ).fadeIn("slow")
+                            .appendTo( "div#explanation" );
+                        }
+                        correct++;
+                    }
+                    else {
+                        // wrong question clicked
+                        $("#test input:checked+label").css("background-color", "red")
+                                                      .css("color", "white");
+                        $("#test input").each(function(){
+                            if ($(this).val() == questions[pos]["chosenone"]) {
+                               $(this).next().css("background-color", "green")
+                                             .css("color", "white");
+                            }
+                        });
+                        $("#test input").attr('disabled', true);
+                        if(support_link == "#"){
+                            //keep support_linklanations empty
+                        }else{
+                            $( "<p>Incorrect answer! To know why click on <a href='"+support_link+"' target='_blank'>Read More</a></p>" ).fadeIn("slow")
+                            .appendTo( "div#explanation" );
+                        }
+                    }
+            }
+
+            function nextAnswer(){
+                pos++;
+                renderQuestion();
+            }
+
+            function startQuiz() {
+                renderQuestion();
+            }
+
+            function addRadioListener(){
+                $("#test input").change(function () {
+                            
+                    _("choiceSubmit").removeAttribute("disabled");
+
+                });
+            }
+
+            function startQuiz() {
+                renderQuestion();
+            }
+
+                $("document").ready(function () {
+
+                    $( "<h2 class='text-center' id='title'>"+quizTitle+"</h2>" ).fadeIn("slow").appendTo( "#test" );
+                    $( "<p class='text-center'>"+quizLead+"</p>" ).fadeIn("slow").appendTo( "#test" );
+            		    if(quizImg == "#"){
+                      
+                    }else{
+                      $( "<img class='fade-in' src='" + quizImg + "' /><br>" ).fadeIn("slow").appendTo( "#test" );
+                    }
+                    $( "<button onclick='startQuiz()' class='start text-center' id='startQ'>Start the Quiz</button>" ).fadeIn("slow").appendTo( "#test" );
+
+                });
+    </script>
+
+</body>
+</html>
